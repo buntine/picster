@@ -1,4 +1,7 @@
 require "sinatra"
+require "./partials"
+
+helpers Sinatra::Partials
 
 get "/" do
   erb :index
