@@ -5,6 +5,12 @@ require "./partials"
 
 helpers Sinatra::Partials
 
+def conf
+  {extensions: ["gif", "jpg", "png"],
+   subreddit: "monkslookingatbeer",
+   default: "http://farm9.staticflickr.com/8100/8611569448_2fb4be9923_z.jpg"}
+end
+
 def random_pic(subreddit)
   tries = 0
 
@@ -13,7 +19,7 @@ def random_pic(subreddit)
     resp = JSON.parse(uri.read)
     pic = resp[0]["data"]["children"][0]["data"]["url"]
 
-    if pic and ["gif", "jpg", "png"].include?(pic[-3, 3].downcase)
+    if pic and conf[:extensions].include?(pic[-3, 3].downcase)
       return pic
     else
       raise RuntimeError
@@ -24,21 +30,23 @@ def random_pic(subreddit)
     if tries <= 3
       retry
     else
-      return "http://farm9.staticflickr.com/8100/8611569448_2fb4be9923_z.jpg"
+      return conf[:default]
     end
   end
 end
 
 def send_email(email, url)
+  # TODO: Implement.
 end
 
 get "/" do
+    puts conf[:subreddit]
   erb :index
 end
 
 post "/" do
   email = params["email"]
-  url = random_pic("monkslookingatbeer")
+  url = random_pic(conf[:subreddit])
 
   send_email(email, url)
 
