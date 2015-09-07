@@ -69,7 +69,7 @@ post "/" do
   subreddit = conf[:subreddits][params["interest"]]
   url = random_pic(subreddit)
 
-  #send_email(email, url)
+  send_email(email, url)
 
   erb :done, :locals => {:url => url}
 end
