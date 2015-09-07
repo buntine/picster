@@ -1,6 +1,7 @@
 require "sinatra"
 require "open-uri"
 require "json"
+require "mandrill"
 require "./partials"
 
 helpers Sinatra::Partials
@@ -8,6 +9,7 @@ helpers Sinatra::Partials
 def conf
   {extensions: ["gif", "jpg", "png"],
    subreddit: "monkslookingatbeer",
+   mandrill_key: File.read("mandrill.txt").chomp,
    default: "http://farm9.staticflickr.com/8100/8611569448_2fb4be9923_z.jpg"}
 end
 
@@ -36,7 +38,7 @@ def random_pic(subreddit)
 end
 
 def send_email(email, url)
-  # TODO: Implement.
+  mandrill = Mandrill::API.new(conf["mandrill_key"])
 end
 
 get "/" do
