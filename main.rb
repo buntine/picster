@@ -39,6 +39,23 @@ end
 
 def send_email(email, url)
   mandrill = Mandrill::API.new(conf["mandrill_key"])
+
+  config = {
+    :subject => "Your Daily Picster",
+    :from_email => "hello@picster.io",
+    :from_name => "Picster",
+    :to => [{
+      :email => email,
+      :name => email
+    }]
+  }
+
+  template_content = [{
+    :name => "url",
+    :content => url
+  }]
+
+  mandrill.messages.send_template("Picster", template_content, config)
 end
 
 get "/" do
