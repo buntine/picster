@@ -10,7 +10,7 @@ def conf
   {extensions: ["gif", "jpg", "png"],
    subreddits: {"beer" => "monkslookingatbeer",
                 "dudes" => "ladyboners",
-                "fog" => "foggypics"},
+                "rad" => "radpics"},
    mandrill_key: File.read("mandrill.txt").chomp,
    default: "http://farm9.staticflickr.com/8100/8611569448_2fb4be9923_z.jpg"}
 end
@@ -69,7 +69,7 @@ post "/" do
   subreddit = conf[:subreddits][params["interest"]]
   url = random_pic(subreddit)
 
-  send_email(email, url)
+  #send_email(email, url)
 
   erb :done, :locals => {:url => url}
 end
