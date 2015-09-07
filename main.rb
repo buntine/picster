@@ -8,7 +8,9 @@ helpers Sinatra::Partials
 
 def conf
   {extensions: ["gif", "jpg", "png"],
-   subreddit: "monkslookingatbeer",
+   subreddits: {"beer" => "monkslookingatbeer",
+                "dudes" => "ladyboners",
+                "fog" => "foggypics"},
    mandrill_key: File.read("mandrill.txt").chomp,
    default: "http://farm9.staticflickr.com/8100/8611569448_2fb4be9923_z.jpg"}
 end
@@ -64,7 +66,8 @@ end
 
 post "/" do
   email = params["email"]
-  url = random_pic(conf[:subreddit])
+  subreddit = conf[:subreddits][params["interest"]]
+  url = random_pic(subreddit)
 
   send_email(email, url)
 
