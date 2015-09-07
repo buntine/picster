@@ -38,7 +38,7 @@ def random_pic(subreddit)
 end
 
 def send_email(email, url)
-  mandrill = Mandrill::API.new(conf["mandrill_key"])
+  mandrill = Mandrill::API.new(conf[:mandrill_key])
 
   config = {
     :subject => "Your Daily Picster",
@@ -47,15 +47,14 @@ def send_email(email, url)
     :to => [{
       :email => email,
       :name => email
+    }],
+    :global_merge_vars => [{
+      :name => "IMGURL",
+      :content => url
     }]
   }
 
-  template_content = [{
-    :name => "url",
-    :content => url
-  }]
-
-  mandrill.messages.send_template("Picster", template_content, config)
+  mandrill.messages.send_template("Picster", {}, config)
 end
 
 get "/" do
