@@ -60,7 +60,6 @@ def send_email(email, url)
 end
 
 get "/" do
-    puts conf[:subreddit]
   erb :index
 end
 
