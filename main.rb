@@ -19,7 +19,7 @@ def random_pic(subreddit)
   tries = 0
 
   begin
-    uri = URI.parse("http://api.reddit.com/r/#{subreddit}/random")
+    uri = URI.parse("https://api.reddit.com/r/#{subreddit}/random")
     resp = JSON.parse(uri.read)
     pic = resp[0]["data"]["children"][0]["data"]["url"]
 
